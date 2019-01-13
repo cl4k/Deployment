@@ -56,6 +56,8 @@ apt-get install -y nmap
 echo "$_GREEN==================================================================$_DEF\n"
 apt-get install -y net-tools
 echo "$_GREEN==================================================================$_DEF\n"
+apt-get install -y openssl
+echo "$_GREEN==================================================================$_DEF\n"
 
 echo "\n"
 echo "Adding sudo user... Username ? (default: 'tom')"
@@ -116,9 +118,9 @@ echo "$_GREEN==================================================================$
 
 cp /etc/hosts /etc/hosts-save
 
-echo "Host name? (default : malo)"
+echo "Host name? (default : debian)"
 read host
-host=${host:-"malo"}
+host=${host:-"debian"}
 
 var1='127.0.0.1	localhost'
 var2='127.0.0.1	localhost.localdomain localhost malo'
@@ -244,3 +246,30 @@ echo "$_GREEN==================================================================$
 
 mv $PWD/check-crontab.sh /root
 md5sum /etc/crontab > /root/crontab.checksum
+
+echo "\n"
+echo "$_GREEN==================================================================$_DEF\n"
+echo "$_GREEN			Website_Config..."
+echo "$_GREEN==================================================================$_DEF\n"
+
+rm /var/www/html/index.html
+cp index.html /var/www/html/index.html
+
+mkdir -p /etc/ssl/localcerts
+openssl req -new -x509 -days 365 -nodes -out /etc/ssl/localcerts/apache.pem -keyout /etc/ssl/localcerts/apache.key
+chmod 600 /etc/ssl/localcerts/apache*
+a2enmod ssl
+
+echo "NameVirtualHost 10.12.254.146:443" >> /etc/apache2/sites-available/ssl.conf
+echo "<VirtualHost 10.12.254.146:443>" >> /etc/apache2/sites-available/ssl.conf
+echo "SSLEngine On" >> /etc/apache2/sites-available/ssl.conf
+echo "SSLCertificateFile /etc/ssl/localcerts/apache.pem" >> /etc/apache2/sites-available/ssl.conf
+echo "SSLCertificateKeyFile /etc/ssl/localcerts/apache.key" >> /etc/apache2/sites-available/ssl.conf
+
+a2ensite sitename
+
+vark1='Listen 80'
+vark2='Listen 443 \n Listen 80'
+sed -i -e 's/'"$vark1"'/'"$vark2"'/g' /etc/apache2/ports.conf
+
+/etc/init.d/apache2 restart
