@@ -17,7 +17,6 @@ _SOUL='\033[4m'
 _CLIG='\033[5m'
 _SURL='\033[7m'
 
-
 echo "\n"
 echo "$_GREEN==================================================================$_DEF\n"
 echo "$_GREEN			installing package..."
