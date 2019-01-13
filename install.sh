@@ -58,7 +58,10 @@ apt-get install -y net-tools
 echo "$_GREEN==================================================================$_DEF\n"
 apt-get install -y openssl
 echo "$_GREEN==================================================================$_DEF\n"
-
+apt-get install -y git
+echo "$_GREEN==================================================================$_DEF\n"
+apt-get install -y sendmail
+echo "$_GREEN==================================================================$_DEF\n"
 echo "\n"
 echo "Adding sudo user... Username ? (default: 'tom')"
 read Username
@@ -79,10 +82,6 @@ var1='allow-hotplug enp0s3'
 var2='allow-hotplug enp0s8'
 sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/network/interfaces
 echo "\taddress 10.12.254.146\n\tgateway 10.12.254.254\n\tnetmask 255.255.255.252\n\tdns-nameservers 8.8.8.8 10.12.254.254" >> /etc/network/interfaces
-
-################################################################
-#cp /etc/network/interfaces-save /etc/network/interfaces
-################################################################
 
 echo "\n"
 echo "$_GREEN==================================================================$_DEF\n"
@@ -107,10 +106,6 @@ var1='#PasswordAuthentication yes'
 var1='PasswordAuthentication no'
 sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/ssh/sshd_config
 
-################################################################
-#cp /etc/ssh/sshd_config-save /etc/ssh/sshd_config
-################################################################
-
 echo "\n"
 echo "$_GREEN==================================================================$_DEF\n"
 echo "$_GREEN			HOST_CONFIG FORT MAIL"
@@ -125,12 +120,6 @@ host=${host:-"debian"}
 var1='127.0.0.1	localhost'
 var2='127.0.0.1	localhost.localdomain localhost malo'
 sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/hosts
-
-apt-get install -y sendmail
-
-################################################################
-#cp /etc/hosts-save /etc/hosts
-################################################################
 
 echo "\n"
 echo "$_GREEN==================================================================$_DEF\n"
@@ -209,10 +198,6 @@ echo "-A INPUT -m recent --name portscan --rcheck --seconds 86400 -j DROP" >> /e
 echo "-A FORWARD -m recent --name portscan --rcheck --seconds 86400 -j DROP" >> /etc/iptables/rules.v4
 echo "\nCOMMIT" >> /etc/iptables/rules.v4
 
-
-
-
-
 echo "\n"
 echo "$_GREEN==================================================================$_DEF\n"
 echo "$_GREEN			CRON_CONFIG"
@@ -235,10 +220,6 @@ echo "0 4 0 0 1 root /usr/bin/apt-get update | tee /var/log/update_script.log\n"
 echo "@reboot root /usr/bin/apt-get update | tee /var/log/update_script.log\n" >> /etc/crontab
 echo "0 0 * * * root /root/check-file.sh" >> /etc/crontab
 
-################################################################
-#cp /etc/crontab /etc/crontab-save
-################################################################
-
 echo "\n"
 echo "$_GREEN==================================================================$_DEF\n"
 echo "$_GREEN			SCRIPT_CONFIG"
@@ -252,24 +233,52 @@ echo "$_GREEN==================================================================$
 echo "$_GREEN			Website_Config..."
 echo "$_GREEN==================================================================$_DEF\n"
 
+git clone https://github.com/cl4k/web_deploy_RS1.git /var/www/web_deploy
+
 rm /var/www/html/index.html
 cp index.html /var/www/html/index.html
+
+echo "<TITLE>GIF to HTML</TITLE> </HEAD>" >> /var/www/html/index.html
+echo "<BODY>" >> /var/www/html/index.html
+echo "	<body style="background-color:grey;">" >> /var/www/html/index.html
+echo "	<p align="center">" >> /var/www/html/index.html
+echo "	<iframe src="https://giphy.com/embed/PvspEuDjQwmBi" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+" >> /var/www/html/index.html
+echo "	</p>" >> /var/www/html/index.html
+echo "	<p align="center">" >> /var/www/html/index.html
+echo "	<a href="https://giphy.com/search/giraffe">Well Done</a>" >> /var/www/html/index.html
+echo "	</p>" >> /var/www/html/index.html
+echo "	</body>" >> /var/www/html/index.html
+echo "</BODY>" >> /var/www/html/index.html
+echo "</HTML>" >> /var/www/html/index.html
 
 mkdir -p /etc/ssl/localcerts
 openssl req -new -x509 -days 365 -nodes -out /etc/ssl/localcerts/apache.pem -keyout /etc/ssl/localcerts/apache.key
 chmod 600 /etc/ssl/localcerts/apache*
 a2enmod ssl
+systemctl restart apache2
+cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/gogol.conf
 
-echo "NameVirtualHost 10.12.254.146:443" >> /etc/apache2/sites-available/ssl.conf
-echo "<VirtualHost 10.12.254.146:443>" >> /etc/apache2/sites-available/ssl.conf
-echo "SSLEngine On" >> /etc/apache2/sites-available/ssl.conf
-echo "SSLCertificateFile /etc/ssl/localcerts/apache.pem" >> /etc/apache2/sites-available/ssl.conf
-echo "SSLCertificateKeyFile /etc/ssl/localcerts/apache.key" >> /etc/apache2/sites-available/ssl.conf
+varo1='<VirtualHost _default_:443>'
+varo2='<VirtualHost 10.12.254.146:443>'
+sed -i -e 's/'"$varo1"'/'"$varo2"'/g' /etc/apache2/sites-available/gogol.conf
 
-a2ensite sitename
+vart1='SSLCertificateFile	/etc/ssl/certs/ssl-cert-snakeoil.pem'
+vart2='SSLCertificateFile /etc/ssl/localcerts/apache.pem'
+sed -i -e 's/'"$vart1"'/'"$vart2"'/g' /etc/apache2/sites-available/gogol.conf
 
-vark1='Listen 80'
-vark2='Listen 443 \n Listen 80'
+varq1='SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key'
+varq2='SSLCertificateKeyFile /etc/ssl/localcerts/apache.key'
+sed -i -e 's/'"$varq1"'/'"$varq2"'/g' /etc/apache2/sites-available/gogol.conf
+
+varj1='<FilesMatch "\.(cgi|shtml|phtml|php)$">'
+varj2='<FilesMatch "\.(cgi|shtml|phtml|php|html)$">'
+sed -i -e 's/'"$varj1"'/'"$varj2"'/g' /etc/apache2/sites-available/gogol.conf
+
+a2ensite gogol.conf
+
+vark1='# /etc/apache2/sites-enabled/000-default.conf'
+vark2='Listen 443'
 sed -i -e 's/'"$vark1"'/'"$vark2"'/g' /etc/apache2/ports.conf
 
-/etc/init.d/apache2 restart
+systemctl restart apache2
