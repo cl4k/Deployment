@@ -238,47 +238,18 @@ git clone https://github.com/cl4k/web_deploy_RS1.git /var/www/web_deploy
 rm /var/www/html/index.html
 cp index.html /var/www/html/index.html
 
-echo "<TITLE>GIF to HTML</TITLE> </HEAD>" >> /var/www/html/index.html
-echo "<BODY>" >> /var/www/html/index.html
-echo "	<body style="background-color:grey;">" >> /var/www/html/index.html
-echo "	<p align="center">" >> /var/www/html/index.html
-echo "	<iframe src="https://giphy.com/embed/PvspEuDjQwmBi" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
-" >> /var/www/html/index.html
-echo "	</p>" >> /var/www/html/index.html
-echo "	<p align="center">" >> /var/www/html/index.html
-echo "	<a href="https://giphy.com/search/giraffe">Well Done</a>" >> /var/www/html/index.html
-echo "	</p>" >> /var/www/html/index.html
-echo "	</body>" >> /var/www/html/index.html
-echo "</BODY>" >> /var/www/html/index.html
-echo "</HTML>" >> /var/www/html/index.html
-
 mkdir -p /etc/ssl/localcerts
 openssl req -new -x509 -days 365 -nodes -out /etc/ssl/localcerts/apache.pem -keyout /etc/ssl/localcerts/apache.key
 chmod 600 /etc/ssl/localcerts/apache*
 a2enmod ssl
 systemctl restart apache2
-cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/gogol.conf
-
-varo1='<VirtualHost _default_:443>'
-varo2='<VirtualHost 10.12.254.146:443>'
-sed -i -e 's/'"$varo1"'/'"$varo2"'/g' /etc/apache2/sites-available/gogol.conf
-
-vart1='SSLCertificateFile	/etc/ssl/certs/ssl-cert-snakeoil.pem'
-vart2='SSLCertificateFile /etc/ssl/localcerts/apache.pem'
-sed -i -e 's/'"$vart1"'/'"$vart2"'/g' /etc/apache2/sites-available/gogol.conf
-
-varq1='SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key'
-varq2='SSLCertificateKeyFile /etc/ssl/localcerts/apache.key'
-sed -i -e 's/'"$varq1"'/'"$varq2"'/g' /etc/apache2/sites-available/gogol.conf
-
-varj1='<FilesMatch "\.(cgi|shtml|phtml|php)$">'
-varj2='<FilesMatch "\.(cgi|shtml|phtml|php|html)$">'
-sed -i -e 's/'"$varj1"'/'"$varj2"'/g' /etc/apache2/sites-available/gogol.conf
+mv /root/gogol.conf /etc/apache2/sites-available/gogol.conf
+rm /etc/apache2/sites-available/000-default.conf
+rm /etc/apache2/sites-available/default-ssl.conf
 
 a2ensite gogol.conf
 
-vark1='# /etc/apache2/sites-enabled/000-default.conf'
-vark2='Listen 443'
-sed -i -e 's/'"$vark1"'/'"$vark2"'/g' /etc/apache2/ports.conf
+rm /etc/apache2/ports.conf
+mv /root/ports.conf /etc/apache2/ports.conf
 
 systemctl restart apache2

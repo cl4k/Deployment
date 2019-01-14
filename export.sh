@@ -48,6 +48,9 @@ ssh-copy-id -i ~/.ssh/id_rsa $Username@$Hostaddress -p $Port
 scp -P $Port $PWD/install.sh $Username@$Hostaddress:~/
 scp -P $Port $PWD/check-crontab.sh $Username@$Hostaddress:~/
 scp -P $Port $PWD/website_update.sh $Username@$Hostaddress:~/
+scp -P $Port $PWD/index.html $Username@$Hostaddress:~/
+scp -P $Port $PWD/ports.conf $Username@$Hostaddress:~/
+scp -P $Port $PWD/gogol.conf $Username@$Hostaddress:~/
 echo "$_GREEN Connecting with Username $Username, in Port $Port, at address $Hostaddress.$_DEF\n"
 
 echo "$_GREEN Connecting to ssh...$_DEF"
