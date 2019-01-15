@@ -81,7 +81,7 @@ sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/network/interfaces
 var1='allow-hotplug enp0s3'
 var2='allow-hotplug enp0s8'
 sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/network/interfaces
-echo "\taddress 10.12.254.146\n\tgateway 10.12.254.254\n\tnetmask 255.255.255.252\n\tdns-nameservers 8.8.8.8 10.12.254.254" >> /etc/network/interfaces
+echo "\taddress 10.13.254.148\n\tgateway 10.13.254.254\n\tnetmask 255.255.255.252\n\tdns-nameservers 8.8.8.8 10.13.254.254" >> /etc/network/interfaces
 
 echo "\n"
 echo "$_GREEN==================================================================$_DEF\n"
@@ -118,7 +118,7 @@ read host
 host=${host:-"debian"}
 
 var1='127.0.0.1	localhost'
-var2='127.0.0.1	localhost.localdomain localhost malo'
+var2='127.0.0.1	localhost.localdomain localhost debian'
 sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/hosts
 
 echo "\n"
@@ -234,22 +234,3 @@ echo "$_GREEN			Website_Config..."
 echo "$_GREEN==================================================================$_DEF\n"
 
 git clone https://github.com/cl4k/web_deploy_RS1.git /var/www/web_deploy
-
-rm /var/www/html/index.html
-cp index.html /var/www/html/index.html
-
-mkdir -p /etc/ssl/localcerts
-openssl req -new -x509 -days 365 -nodes -out /etc/ssl/localcerts/apache.pem -keyout /etc/ssl/localcerts/apache.key
-chmod 600 /etc/ssl/localcerts/apache*
-a2enmod ssl
-systemctl restart apache2
-mv /root/gogol.conf /etc/apache2/sites-available/gogol.conf
-rm /etc/apache2/sites-available/000-default.conf
-rm /etc/apache2/sites-available/default-ssl.conf
-
-a2ensite gogol.conf
-
-rm /etc/apache2/ports.conf
-mv /root/ports.conf /etc/apache2/ports.conf
-
-systemctl restart apache2

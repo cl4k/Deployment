@@ -46,6 +46,7 @@ scp -P $Port $PWD/website_update.sh $Username@$Hostaddress:~/
 scp -P $Port $PWD/index.html $Username@$Hostaddress:~/
 scp -P $Port $PWD/ports.conf $Username@$Hostaddress:~/
 scp -P $Port $PWD/gogol.conf $Username@$Hostaddress:~/
+scp -P $Port $PWD/deployssl.sh $Username@$Hostaddress:~/
 echo "$_GREEN Connecting with Username $Username, in Port $Port, at address $Hostaddress.$_DEF\n"
 
 echo "$_GREEN Connecting to ssh...$_DEF"
