@@ -17,6 +17,20 @@ _SOUL='\033[4m'
 _CLIG='\033[5m'
 _SURL='\033[7m'
 
+clear
+echo  "$_PURPLE"
+echo " ██▓███   ▒█████   █     █░▓█████  ██▀███      ██▀███   ▒█████    ▄████ ▓█████  ██▀███"
+echo "▓██░  ██▒▒██▒  ██▒▓█░ █ ░█░▓█   ▀ ▓██ ▒ ██▒   ▓██ ▒ ██▒▒██▒  ██▒ ██▒ ▀█▒▓█   ▀ ▓██ ▒ ██▒"
+echo "▓██░ ██▓▒▒██░  ██▒▒█░ █ ░█ ▒███   ▓██ ░▄█ ▒   ▓██ ░▄█ ▒▒██░  ██▒▒██░▄▄▄░▒███   ▓██ ░▄█ ▒"
+echo "▒██▄█▓▒ ▒▒██   ██░░█░ █ ░█ ▒▓█  ▄ ▒██▀▀█▄     ▒██▀▀█▄  ▒██   ██░░▓█  ██▓▒▓█  ▄ ▒██▀▀█▄"
+echo "▒██▒ ░  ░░ ████▓▒░░░██▒██▓ ░▒████▒░██▓ ▒██▒   ░██▓ ▒██▒░ ████▓▒░░▒▓███▀▒░▒████▒░██▓ ▒██▒"
+echo "▒▓▒░ ░  ░░ ▒░▒░▒░ ░ ▓░▒ ▒  ░░ ▒░ ░░ ▒▓ ░▒▓░   ░ ▒▓ ░▒▓░░ ▒░▒░▒░  ░▒   ▒ ░░ ▒░ ░░ ▒▓ ░▒▓░"
+echo "░▒ ░       ░ ▒ ▒░   ▒ ░ ░   ░ ░  ░  ░▒ ░ ▒░     ░▒ ░ ▒░  ░ ▒ ▒░   ░   ░  ░ ░  ░  ░▒ ░ ▒░"
+echo "░░       ░ ░ ░ ▒    ░   ░     ░     ░░   ░      ░░   ░ ░ ░ ░ ▒  ░ ░   ░    ░     ░░   ░"
+echo "             ░ ░      ░       ░  ░   ░           ░         ░ ░        ░    ░  ░   ░" 
+echo  "$_DEF"
+
+sleep 1
 
 echo "\n"
 echo "$_GREEN==================================================================$_DEF\n"
@@ -138,6 +152,7 @@ echo "# SSH\n" >> /etc/iptables/rules.v4
 echo "-A INPUT -p tcp -m tcp --dport 5022 -j ACCEPT\n" >> /etc/iptables/rules.v4
 echo "-A OUTPUT -p tcp -m tcp --dport 5022 -j ACCEPT\n" >> /etc/iptables/rules.v4
 echo "\n#mail\n" >> /etc/iptables/rules.v4
+echo "-A INPUT -p tcp --dport 25 -j ACCEPT\n"  >> /etc/iptables/rules.v4
 echo "-A OUTPUT -p tcp --dport 25 -j ACCEPT\n" >> /etc/iptables/rules.v4
 echo "\n# authorise hht\n" >> /etc/iptables/rules.v4
 echo "-A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT\n\n" >> /etc/iptables/rules.v4
@@ -234,3 +249,19 @@ echo "$_GREEN			Website_Config..."
 echo "$_GREEN==================================================================$_DEF\n"
 
 git clone https://github.com/cl4k/web_deploy_RS1.git /var/www/web_deploy
+
+echo "$_GREEN==================================================================$_DEF\n"
+echo "$_GREEN			HOST_CONFIG FOR MAIL"
+echo "$_GREEN==================================================================$_DEF\n"
+
+cp /etc/hosts /etc/hosts-save
+
+var1='127.0.0.1	localhost'
+var2='127.0.0.1	localhost.localdomain localhost debian'
+sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/hosts
+
+apt-get install -y sendmail
+
+echo "$_GREEN==================================================================$_DEF\n"
+echo "$_GREEN Server will shutdown now... change port of ssh in NAT adapter and add bridged adapter please. $_DEF\n"
+shutdown now
