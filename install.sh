@@ -33,49 +33,49 @@ echo  "$_DEF"
 sleep 1
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			debian disk infos :"
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			debian disk infos :"
+echo "$_PURPLE==================================================================$_DEF\n"
 fdisk -l
 
 echo "\n 1 sector = 512 b\n"
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			updating..."
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			updating..."
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get -y update
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get -y upgrade
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			installing package..."
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			installing package..."
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y sudo
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y fail2ban
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y apache2
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y vim
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y iptables-persistent
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y netfilter-persistent
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y openssl
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y nmap
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y net-tools
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y openssl
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y git
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y sendmail
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 echo "\n"
 echo "Adding sudo user... Username ? (default: 'tom')"
 read Username
@@ -84,9 +84,9 @@ adduser $Username
 adduser $Username sudo
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			LAN ADDR"
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			LAN ADDR"
+echo "$_PURPLE==================================================================$_DEF\n"
 
 cp /etc/network/interfaces /etc/network/interfaces-save
 var1='iface enp0s3 inet dhcp'
@@ -95,12 +95,15 @@ sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/network/interfaces
 var1='allow-hotplug enp0s3'
 var2='allow-hotplug enp0s8'
 sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/network/interfaces
-echo "\taddress 10.13.254.148\n\tgateway 10.13.254.254\n\tnetmask 255.255.255.252\n\tdns-nameservers 8.8.8.8 10.13.254.254" >> /etc/network/interfaces
+echo "Dans que cluster etes-vous ?"
+read Cluster
+Cluster=${Cluster:-"2"}
+echo "\taddress 10.1$Cluster.254.148\n\tgateway 10.1$Cluster.254.254\n\tnetmask 255.255.255.252\n\tdns-nameservers 8.8.8.8 10.1$Cluster.254.254" >> /etc/network/interfaces
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			SSHD_CONFIG"
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			SSHD_CONFIG"
+echo "$_PURPLE==================================================================$_DEF\n"
 
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config-save
 
@@ -121,9 +124,9 @@ var1='PasswordAuthentication no'
 sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/ssh/sshd_config
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			HOST_CONFIG FORT MAIL"
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			HOST_CONFIG FORT MAIL"
+echo "$_PURPLE==================================================================$_DEF\n"
 
 cp /etc/hosts /etc/hosts-save
 
@@ -136,9 +139,9 @@ var2='127.0.0.1	localhost.localdomain localhost debian'
 sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/hosts
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			FIREWALL_CONFIG"
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			FIREWALL_CONFIG"
+echo "$_PURPLE==================================================================$_DEF\n"
 
 rm -rf /etc/iptables/rules.v4
 
@@ -214,9 +217,9 @@ echo "-A FORWARD -m recent --name portscan --rcheck --seconds 86400 -j DROP" >> 
 echo "\nCOMMIT" >> /etc/iptables/rules.v4
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			CRON_CONFIG"
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			CRON_CONFIG"
+echo "$_PURPLE==================================================================$_DEF\n"
 
 cp /etc/crontab /etc/crontab-save
 
@@ -234,25 +237,28 @@ echo "52 6 1 * * root test -x /usr/sbin/anacron || ( cd / && run-parts --report 
 echo "0 4 0 0 1 root /usr/bin/apt-get update | tee /var/log/update_script.log\n" >> /etc/crontab
 echo "@reboot root /usr/bin/apt-get update | tee /var/log/update_script.log\n" >> /etc/crontab
 echo "0 0 * * * root /root/check-file.sh" >> /etc/crontab
+echo "0 4 0 0 1 /usr/bin/apt-get update | tee /var/log/update_script.log\n" >> /var/spool/cron/crontabs/root
+echo "@reboot /usr/bin/apt-get update | tee /var/log/update_script.log\n" >> /var/spool/cron/crontabs/root
+echo "0 0 * * * /root/check-file.sh" >> /var/spool/cron/crontabs/root
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			SCRIPT_CONFIG"
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			SCRIPT_CONFIG"
+echo "$_PURPLE==================================================================$_DEF\n"
 
 mv $PWD/check-crontab.sh /root
 md5sum /etc/crontab > /root/crontab.checksum
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			Website_Config..."
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			Website_Config..."
+echo "$_PURPLE==================================================================$_DEF\n"
 
 git clone https://github.com/cl4k/web_deploy_RS1.git /var/www/web_deploy
 
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			HOST_CONFIG FOR MAIL"
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			HOST_CONFIG FOR MAIL"
+echo "$_PURPLE==================================================================$_DEF\n"
 
 cp /etc/hosts /etc/hosts-save
 
@@ -262,6 +268,6 @@ sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/hosts
 
 apt-get install -y sendmail
 
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN Server will shutdown now... change port of ssh in NAT adapter and add bridged adapter please. $_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE Server will shutdown now... change port of ssh in NAT adapter and add bridged adapter please. $_DEF\n"
 shutdown now

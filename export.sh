@@ -19,7 +19,7 @@ _SURL='\033[7m'
 
 
 clear
-echo -e "$_PURPLE"
+echo  "$_PURPLE"
 echo " ██▓███   ▒█████   █     █░▓█████  ██▀███      ██▀███   ▒█████    ▄████ ▓█████  ██▀███"
 echo "▓██░  ██▒▒██▒  ██▒▓█░ █ ░█░▓█   ▀ ▓██ ▒ ██▒   ▓██ ▒ ██▒▒██▒  ██▒ ██▒ ▀█▒▓█   ▀ ▓██ ▒ ██▒"
 echo "▓██░ ██▓▒▒██░  ██▒▒█░ █ ░█ ▒███   ▓██ ░▄█ ▒   ▓██ ░▄█ ▒▒██░  ██▒▒██░▄▄▄░▒███   ▓██ ░▄█ ▒"
@@ -29,30 +29,30 @@ echo "▒▓▒░ ░  ░░ ▒░▒░▒░ ░ ▓░▒ ▒  ░░ ▒�
 echo "░▒ ░       ░ ▒ ▒░   ▒ ░ ░   ░ ░  ░  ░▒ ░ ▒░     ░▒ ░ ▒░  ░ ▒ ▒░   ░   ░  ░ ░  ░  ░▒ ░ ▒░"
 echo "░░       ░ ░ ░ ▒    ░   ░     ░     ░░   ░      ░░   ░ ░ ░ ░ ▒  ░ ░   ░    ░     ░░   ░"
 echo "             ░ ░      ░       ░  ░   ░           ░         ░ ░        ░    ░  ░   ░" 
-echo -e "$_DEF"
+echo  "$_DEF"
 
 sleep 1
 
 
-echo "$_GREEN Username ? (Default: 'lramard')$_DEF"
+echo "$_PURPLE Username ? (Default: 'lramard')$_DEF"
 read Username
 Username=${Username:-"lramard"}
 
-echo "$_GREEN Port ? (Default: '5022')$_DEF"
+echo "$_PURPLE Port ? (Default: '5022')$_DEF"
 read Port
 Port=${Port:-"5022"}
 
-echo "$_GREEN Hostaddress ? (Default: '127.0.0.1')$_DEF"
+echo "$_PURPLE Hostaddress ? (Default: '127.0.0.1')$_DEF"
 read Hostaddress
 Hostaddress=${Hostaddress:-"127.0.0.1"}
 
-echo "$_GREEN Would you like to delete known_hosts file? (yes - no)$_DEF"
+echo "$_PURPLE Would you like to delete known_hosts file? (yes - no)$_DEF"
 read input
 if [ "$input" == "yes" ]; then
 	rm ~/.ssh/known_hosts
 fi
 
-echo "$_GREEN Generating ssh key$_DEF"
+echo "$_PURPLE Generating ssh key$_DEF"
 ssh-keygen
 ssh-copy-id -i ~/.ssh/id_rsa $Username@$Hostaddress -p $Port
 
@@ -63,12 +63,12 @@ scp -P $Port $PWD/index.html $Username@$Hostaddress:~/
 scp -P $Port $PWD/ports.conf $Username@$Hostaddress:~/
 scp -P $Port $PWD/gogol.conf $Username@$Hostaddress:~/
 scp -P $Port $PWD/deployssl.sh $Username@$Hostaddress:~/
-echo "$_GREEN Connecting with Username $Username, in Port $Port, at address $Hostaddress.$_DEF\n"
+echo "$_PURPLE Connecting with Username $Username, in Port $Port, at address $Hostaddress.$_DEF\n"
 
-echo "$_GREEN Connecting to ssh...$_DEF"
+echo "$_PURPLE Connecting to ssh...$_DEF"
 ssh $Username@$Hostaddress -p $Port
 echo "\nAfter launching the install script, you should add bridged adapter in your vm"
-echo "$_GREEN Would you like to add it ? (yes - no)$_DEF"
+echo "$_PURPLE Would you like to add it ? (yes - no)$_DEF"
 read input
 if [ "$input" == "yes" ]; then
 	echo "VM name?"

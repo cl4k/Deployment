@@ -18,31 +18,31 @@ _CLIG='\033[5m'
 _SURL='\033[7m'
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			installing package..."
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			installing package..."
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y apache2-utils
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y mysql-client
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y mysql-server
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y php7.0
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y php7.0-mysql
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y libapache2-mod-php7.0
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y php7.0-cli
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y php7.0-cgi
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 apt-get install -y php7.0-gd
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			installing Mysql_secure..."
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			installing Mysql_secure..."
+echo "$_PURPLE==================================================================$_DEF\n"
 mysql_secure_installation
 
 echo "<?php" >> /var/www/html/info.php
@@ -50,9 +50,9 @@ echo "phpinfo();" >> /var/www/html/info.php
 echo "?>" >> /var/www/html/info.php
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			downloading wordpress..."
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			downloading wordpress..."
+echo "$_PURPLE==================================================================$_DEF\n"
 wget -c http://wordpress.org/latest.tar.gz
 tar -xzvf latest.tar.gz
 
@@ -61,14 +61,14 @@ chown -R www-data:www-data /var/www/html/
 chmod -R 755 /var/www/html/
 
 echo "\n"
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN			configurating Mysql, please follow..."
-echo "$_GREEN==================================================================$_DEF\n"
-echo "$_GREEN Welcome, type a name for your database : $_DEF"
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE			configurating Mysql, please follow..."
+echo "$_PURPLE==================================================================$_DEF\n"
+echo "$_PURPLE Welcome, type a name for your database : $_DEF"
 read databasename
-echo "$_GREEN Type a username : $_DEF"
+echo "$_PURPLE Type a username : $_DEF"
 read username
-echo "$_GREEN Type a password: $_DEF"
+echo "$_PURPLE Type a password: $_DEF"
 read passwordsql
 
 mysql -u root -p
@@ -78,7 +78,7 @@ GRANT ALL PRIVILEGES ON $databasename.* TO '$username'@'localhost' IDENTIFIED BY
 FLUSH PRIVILEGES;
 EXIT;
 
-echo "$_GREEN==================================================================$_DEF\n"
+echo "$_PURPLE==================================================================$_DEF\n"
 cd /var/www/html/
 mv wp-config-sample.php wp-config.php
 

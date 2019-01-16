@@ -56,37 +56,76 @@ hddsize="8192"
 
 
 vboxmanage createvm --name $vmname --ostype $ostype --register
+if [ $? ==  0 ]; then
+		echo  "Creation $_GREEN[OK] $_DEF"
+	else
+		echo  "Creation $_RED[KO] $_DEF"
+fi
 echo "$_PURPLE==================================================================$_DEF\n"
 
-echo "\nSETTING UP MEDIUM DISK\n"
 VBoxManage createmedium disk --filename /sgoinfre/goinfre/Perso/lramard/$vmname.vdi --size $vmsize --variant Fixed
+if [ $? ==  0 ]; then
+		echo  "SETTING UP MEDIUM DISK $_GREEN[OK] $_DEF"
+	else
+		echo  "SETTING UP MEDIUM DISK $_RED[KO] $_DEF"
+fi
 echo "$_PURPLE==================================================================$_DEF\n"
 
-echo "\nSETTING UP SATA CONTROLLER\n"
 VBoxManage storagectl $vmname --name "SATA Controller" --add sata --controller IntelAhci
 VBoxManage storageattach $vmname --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium /sgoinfre/goinfre/Perso/lramard/$vmname.vdi
+if [ $? ==  0 ]; then
+		echo  "SETTING UP SATA CONTROLLER $_GREEN[OK] $_DEF"
+	else
+		echo  "SETTING UP SATA CONTROLLER $_RED[KO] $_DEF"
+fi
 echo "$_PURPLE==================================================================$_DEF\n"
 
-echo "\nSETTING UP MEMORY AND VMEMORY\n"
 VBoxManage modifyvm $vmname --memory $vmmemory --vram $vmvram
+if [ $? ==  0 ]; then
+		echo  "SETTING UP MEMORY AND VMEMORY $_GREEN[OK] $_DEF"
+	else
+		echo  "SETTING UP MEMORY AND VMEMORY $_RED[KO] $_DEF"
+fi
 echo "$_PURPLE==================================================================$_DEF\n"
 
-echo "\nSETTING UP NAT\n"
 VBoxManage modifyvm $vmname --acpi on --boot1 dvd --nic1 nat
-
+if [ $? ==  0 ]; then
+		echo  "SETTING UP NAT $_GREEN[OK] $_DEF"
+	else
+		echo  "SETTING UP NAT $_RED[KO] $_DEF"
+fi
 echo "$_PURPLE==================================================================$_DEF\n"
 
-echo "\nSETTING UP SSH PORT\n"
 VBoxManage modifyvm $vmname --natpf1 "SSH,tcp,127.0.0.1,5022,,22"
+if [ $? ==  0 ]; then
+		echo  "SETTING UP SSH PORT $_GREEN[OK] $_DEF"
+	else
+		echo  "SETTING UP SSH PORT $_RED[KO] $_DEF"
+fi
 echo "$_PURPLE==================================================================$_DEF\n"
 VBoxManage modifyvm $vmname --natpf1 "HTTP,tcp,,80,,80"
+if [ $? ==  0 ]; then
+		echo  "SETTING UP NAT - http $_GREEN[OK] $_DEF"
+	else
+		echo  "SETTING UP NAT - http $_RED[KO] $_DEF"
+fi
 echo "$_PURPLE==================================================================$_DEF\n"
 VBoxManage modifyvm $vmname --natpf1 "HTTPS,tcp,,443,,443"
+if [ $? ==  0 ]; then
+		echo  "SETTING UP NAT - https $_GREEN[OK] $_DEF"
+	else
+		echo  "SETTING UP NAT - https  $_RED[KO] $_DEF"
+fi
 echo "$_PURPLE==================================================================$_DEF\n"
 
-echo "\nSETTING UP IDE CONTROLLER\n"
+
 VBoxManage storagectl $vmname --name "IDE Controller" --add IDE
 VBoxManage storageattach $vmname --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium $PWD/debian.iso
+if [ $? ==  0 ]; then
+		echo  "SETTING UP IDE CONTROLLER $_GREEN[OK] $_DEF"
+	else
+		echo  "SETTING UP IDE CONTROLLER $_RED[KO] $_DEF"
+fi
 echo "$_PURPLE==================================================================$_DEF\n"
 
 echo "\nSTARTING VM\n"
