@@ -119,9 +119,7 @@ var1='#PubkeyAuthentication yes'
 var2='PubkeyAuthentication yes'
 sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/ssh/sshd_config
 
-var1='#PasswordAuthentication yes'
-var1='PasswordAuthentication no'
-sed -i -e 's/'"$var1"'/'"$var2"'/g' /etc/ssh/sshd_config
+sed -i -e 's/'"#PasswordAuthentication yes"'/'"PasswordAuthentication no"'/g' /etc/ssh/sshd_config
 
 echo "\n"
 echo "$_PURPLE==================================================================$_DEF\n"
