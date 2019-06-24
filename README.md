@@ -17,3 +17,18 @@ Le deploiement doit s'effectuer dans l'ordre suivant :<br>
 -reconnexion sur le machine<br>
 -su root<br>
 -sh deploiementssl.sh<br>
+
+---------------------------------------------------------------------
+
+### CAUTION
+This script has to goal to deploy a virtual machine by using virtuatbox, an OS : Debian . With a full associative characteristic coming from the subject Roger-skyline-1 ( used by Ecole 42).
+Without modification the VM is only running on computer from school42.
+To be launched :
+
+-sh createvm.sh<br>
+-suivre installation debian sur la machien virtuel<br>
+-su root sur la machine<br>
+-sh install.sh<br>
+-reconnexion sur le machine<br>
+-su root<br>
+-sh deploiementssl.sh<br>
