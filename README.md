@@ -9,11 +9,11 @@
 Ce script a pour but de deployer sur une machine virtuel virtualbox , un systeme d'exploitation debian associe a des caracteristiques propres au sujet Roger-skyline-1 de l'ecole 42.
 Tel quel le script se deploie sur les machines de l'ecole 42.
 
-Le ploiement doit s'effectuer dans l'ordre suivant :
--sh createvm.sh
--suivre installation debian sur la machien virtuel
--su root sur la machine
--sh install.sh
--reconnexion sur le machine
--su root
--sh deploiementssl.sh
+Le deploiement doit s'effectuer dans l'ordre suivant :<br>
+-sh createvm.sh<br>
+-suivre installation debian sur la machien virtuel<br>
+-su root sur la machine<br>
+-sh install.sh<br>
+-reconnexion sur le machine<br>
+-su root<br>
+-sh deploiementssl.sh<br>
