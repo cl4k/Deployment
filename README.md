@@ -26,7 +26,7 @@ Without modification the VM is only running on computer from school42.
 To be launched :
 
 -sh createvm.sh<br>
--suivre installation debian sur la machien virtuel<br>
+-Intall step by step for debian on the virtualbox<br>
 -su root sur la machine<br>
 -sh install.sh<br>
 -reconnexion sur le machine<br>
