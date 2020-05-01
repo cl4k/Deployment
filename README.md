@@ -21,7 +21,7 @@ Le deploiement doit s'effectuer dans l'ordre suivant :<br>
 ---------------------------------------------------------------------
 
 ### CAUTION
-This script has to goal to deploy a virtual machine by using virtuatbox, an OS : Debian . With a full associative characteristic coming from the subject Roger-skyline-1 ( used by Ecole 42).
+This script's goal is to deploy a virtual machine by using virtuatbox and an OS : Debian . With a full associative characteristic coming from the subject Roger-skyline-1 ( used by Ecole 42).
 Without modification the VM is only running on computer from school42.
 To be launched :
 
